@@ -5,7 +5,7 @@ if (menuToggle && menu) {
   const setMenuState = (open) => {
     menu.classList.toggle("is-open", open);
     menuToggle.setAttribute("aria-expanded", String(open));
-    menuToggle.setAttribute("aria-label", open ? "Cerrar menu principal" : "Abrir menu principal");
+    menuToggle.setAttribute("aria-label", open ? "Cerrar menú principal" : "Abrir menú principal");
   };
 
   setMenuState(false);
