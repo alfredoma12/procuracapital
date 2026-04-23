@@ -6,7 +6,7 @@
   --color-accent-dim: #A07C28;
   --color-text: #F0EDE8;
   --color-text-2: #9B9890;
-  --color-text-3: #5C5A56;
+  --color-text-3: #C8C4BE;
   --color-border: rgba(212, 168, 67, 0.15);
   --color-border-2: rgba(240, 237, 232, 0.08);
   --font-display: "Bebas Neue", sans-serif;
@@ -229,6 +229,30 @@ section:first-of-type {
   padding: 0.5rem 1.25rem;
   border-radius: 2px;
   font-weight: 500;
+}
+
+.nav__portal {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-accent) !important;
+  padding: 0.4rem 1rem !important;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background 0.2s, border-color 0.2s !important;
+}
+.nav__portal::before {
+  content: '→';
+  font-size: 0.8rem;
+}
+.nav__portal:hover {
+  background: rgba(212,168,67,0.08) !important;
+  border-color: var(--color-accent) !important;
+  color: var(--color-accent) !important;
 }
 
 .nav__toggle {
@@ -504,6 +528,7 @@ section:first-of-type {
   background: var(--color-bg);
   padding: 2.5rem 2rem;
   border-left: 2px solid transparent;
+  position: relative;
   transition: border-color 0.2s, background 0.2s;
 }
 
@@ -530,6 +555,23 @@ section:first-of-type {
   font-size: 0.875rem;
   color: var(--color-text-2);
   line-height: 1.65;
+}
+
+.service-card--recommended {
+  background: linear-gradient(180deg, rgba(212, 168, 67, 0.08) 0%, var(--color-bg) 70%);
+  border-left-color: var(--color-accent);
+}
+
+.service-card__badge {
+  display: inline-block;
+  margin-bottom: 0.9rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--color-border);
+  color: var(--color-accent);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .pricing__grid {
