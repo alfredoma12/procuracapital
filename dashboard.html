@@ -389,10 +389,64 @@
     }
     .cart-wa:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    @media (max-width: 640px) {
-      .login-card { padding: 36px 24px 28px; }
-      .dash-grid { grid-template-columns: 1fr; }
+    @media (max-width: 768px) {
+      /* TOPBAR */
+      .topbar { padding: 0 14px; gap: 8px; height: 52px; }
+      .topbar__left { gap: 10px; min-width: 0; flex: 1; overflow: hidden; }
+      .topbar__title { font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .topbar__user { gap: 6px; flex-shrink: 0; }
+      .topbar__username { display: none; }
+      .topbar__logout { padding: 5px 8px; font-size: 0.65rem; }
+      .topbar__cart { padding: 5px 8px; font-size: 0.65rem; }
+      .topbar__home { font-size: 0.65rem; padding: 4px 8px; }
+
+      /* DASHBOARD */
+      .dash-hero { padding: 32px 16px 24px; }
+      .dash-hero__title { font-size: clamp(1.6rem, 8vw, 2.4rem); }
+      .dash-search-wrap { padding: 0 16px; margin-bottom: 20px; }
+      .dash-search-icon { left: 30px; }
+      .dash-grid { padding: 0 16px; grid-template-columns: 1fr; }
+
+      /* PRICE LIST */
+      .pl-header { padding: 24px 16px 16px; }
+      .pl-controls {
+        padding: 0 16px;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .pl-search { flex: 1 1 100%; }
+      .pl-category-filter { min-width: 0; width: 100%; }
+      .pl-price-mode { width: 100%; }
+      .pl-price-mode button { flex: 1; }
       .pl-results-count { margin-left: 0; }
+      .pl-body { padding: 0 16px; }
+      .pl-table thead th { padding: 8px 10px; font-size: 0.62rem; }
+      .pl-table td { padding: 8px 10px; font-size: 0.8rem; }
+      .pl-qty-input { width: 58px; font-size: 0.75rem; }
+      .pl-add-btn { padding: 5px 8px; font-size: 0.68rem; }
+      .pl-notice { padding: 0 16px; }
+
+      /* CART */
+      .cart-body { padding: 20px 16px; }
+      .cart-title { font-size: clamp(1.4rem, 6vw, 2rem); }
+      .cart-table th,
+      .cart-table td { padding: 8px 10px; font-size: 0.8rem; }
+      .cart-actions { flex-direction: column; }
+      .cart-wa { width: 100%; text-align: center; padding: 12px; font-size: 0.9rem; }
+    }
+
+    @media (max-width: 480px) {
+      .login-card { padding: 32px 18px 24px; }
+      .login-logo__title { font-size: 2rem; }
+      .topbar__back { font-size: 0.68rem; padding: 5px 6px; }
+      .topbar__back svg { width: 12px; height: 12px; }
+      /* Hide category column on very small screens to save space */
+      .pl-table th:first-child,
+      .pl-table td:first-child { display: none; }
+    }
+
+    @media (max-width: 640px) {
+      .dash-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>

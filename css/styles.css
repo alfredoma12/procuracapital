@@ -1131,4 +1131,41 @@ section:first-of-type {
   .cta-final__actions {
     width: 100%;
   }
+
+  section {
+    padding: 3.5rem 0;
+  }
+
+  .page-hero {
+    padding: 3.5rem 0 2rem;
+  }
+
+  .problem-card,
+  .service-card,
+  .case-card,
+  .pricing-card {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .panel__metric-value {
+    font-size: 2rem;
+  }
+
+  .hero__panel {
+    padding: 1.25rem;
+  }
+
+  .footer__grid {
+    gap: 1.5rem;
+  }
+
+  .footer__bottom {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .sector-grid,
+  .two-col {
+    grid-template-columns: 1fr;
+  }
 }
