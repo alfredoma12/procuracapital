@@ -5,7 +5,7 @@
   --color-accent: #D4A843;
   --color-accent-dim: #A07C28;
   --color-text: #F0EDE8;
-  --color-text-2: #9B9890;
+  --color-text-2: #ffffff;
   --color-text-3: #C8C4BE;
   --color-border: rgba(212, 168, 67, 0.15);
   --color-border-2: rgba(240, 237, 232, 0.08);
@@ -546,14 +546,14 @@ section:first-of-type {
 .service-card__title {
   font-size: 1rem;
   font-weight: 500;
-  color: var(--color-text);
+  color: var(--color-accent);
   margin-bottom: 0.75rem;
   line-height: 1.4;
 }
 
 .service-card__body {
   font-size: 0.875rem;
-  color: var(--color-text-2);
+  color: #ffffff;
   line-height: 1.65;
 }
 

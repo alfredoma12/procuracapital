@@ -580,7 +580,9 @@
             <tr>
               <th>Categoría</th>
               <th>Producto</th>
+              <th class="r">Precio unit.</th>
               <th class="r">Cantidad</th>
+              <th class="r">Total</th>
             </tr>
           </thead>
           <tbody id="cart-table-body"></tbody>
@@ -802,9 +804,7 @@
         '<thead><tr>' +
         '<th>Categoría</th>' +
         '<th>Producto</th>' +
-        '<th class="r">Precio pallet</th>' +
         '<th class="r">Precio unit.</th>' +
-        '<th class="r">Embalaje</th>' +
         '<th class="r">Cantidad</th>' +
         '<th class="r">Carrito</th>' +
         '</tr></thead><tbody></tbody>';
@@ -821,9 +821,7 @@
         tr.innerHTML =
           '<td>' + categoria + '</td>' +
           '<td>' + (row[COL_PRODUCT] || '') + '</td>' +
-          '<td class="r price-pallet">' + (pallet ? formatCLP(pallet) : '—') + '</td>' +
           '<td class="r price-main" data-neto="' + (neto != null ? neto : '') + '" data-iva="' + (iva != null ? iva : '') + '">' + formatCLP(neto) + '</td>' +
-          '<td class="r price-emb">' + (emb ? formatCLP(emb) : '—') + '</td>' +
           '<td class="r qty-cell"><input type="number" min="1" value="1" class="pl-qty-input" /></td>' +
           '<td class="r"><button class="pl-add-btn">Agregar</button></td>';
 
@@ -831,10 +829,15 @@
           var qtyInput = tr.querySelector('.pl-qty-input');
           var qty = parseInt(qtyInput.value, 10);
           if (!qty || qty < 1) qty = 1;
+          var priceCell = tr.querySelector('.price-main');
+          var precioNeto = priceCell && priceCell.dataset.neto !== '' ? parseFloat(priceCell.dataset.neto) : null;
+          var precioIva  = priceCell && priceCell.dataset.iva  !== '' ? parseFloat(priceCell.dataset.iva)  : null;
           addToCart({
             categoria: categoria,
             producto: row[COL_PRODUCT],
-            cantidad: qty
+            cantidad: qty,
+            precioNeto: precioNeto,
+            precioIva: precioIva
           });
           qtyInput.value = '1';
         });
@@ -931,14 +934,40 @@
       empty.style.display = 'none';
       sendBtn.disabled = false;
 
+      var totalGeneral = 0;
       cartItems.forEach(function(item) {
+        var precio = priceMode === 'iva' ? item.precioIva : item.precioNeto;
+        var totalItem = (precio != null) ? precio * item.cantidad : null;
+        if (totalItem != null) totalGeneral += totalItem;
         var tr = document.createElement('tr');
         tr.innerHTML =
           '<td>' + item.categoria + '</td>' +
           '<td>' + item.producto + '</td>' +
-          '<td class="r">' + item.cantidad + '</td>';
+          '<td class="r">' + (precio != null ? formatCLP(precio) : '—') + '</td>' +
+          '<td class="r">' + item.cantidad + '</td>' +
+          '<td class="r">' + (totalItem != null ? formatCLP(totalItem) : '—') + '</td>';
         tbody.appendChild(tr);
       });
+      if (totalGeneral > 0) {
+        var gestion = totalGeneral * 0.1;
+        var totalRow = document.createElement('tr');
+        totalRow.style.cssText = 'border-top: 2px solid var(--color-border);';
+        totalRow.innerHTML =
+          '<td colspan="4" style="text-align:right;font-family:var(--font-mono);font-size:0.78rem;color:var(--color-text-2);padding-top:14px;">Total estimado (' + (priceMode === 'iva' ? 'Con IVA' : 'Neto') + ')</td>' +
+          '<td class="r" style="color:var(--color-accent);font-weight:600;padding-top:14px;">' + formatCLP(totalGeneral) + '</td>';
+        tbody.appendChild(totalRow);
+        var gestionRow = document.createElement('tr');
+        gestionRow.innerHTML =
+          '<td colspan="4" style="text-align:right;font-family:var(--font-mono);font-size:0.78rem;color:var(--color-text-2);padding-top:6px;">Costos por gestión (10%)</td>' +
+          '<td class="r" style="color:var(--color-text-2);font-weight:500;padding-top:6px;">' + formatCLP(Math.round(gestion)) + '</td>';
+        tbody.appendChild(gestionRow);
+        var totalFinalRow = document.createElement('tr');
+        totalFinalRow.style.cssText = 'border-top: 1px solid var(--color-border);';
+        totalFinalRow.innerHTML =
+          '<td colspan="4" style="text-align:right;font-family:var(--font-mono);font-size:0.8rem;color:var(--color-text);font-weight:600;padding-top:10px;padding-bottom:4px;">Total con gestión</td>' +
+          '<td class="r" style="color:var(--color-accent);font-weight:700;font-size:1rem;padding-top:10px;padding-bottom:4px;">' + formatCLP(Math.round(totalGeneral + gestion)) + '</td>';
+        tbody.appendChild(totalFinalRow);
+      }
     }
 
     function sendCartToWhatsApp() {
@@ -946,7 +975,9 @@
 
       var lines = ['Hola, quisiera consultar disponibilidad de los siguientes productos:'];
       cartItems.forEach(function(item, idx) {
-        lines.push((idx + 1) + '. ' + item.producto + ' | Categoria: ' + item.categoria + ' | Cantidad: ' + item.cantidad);
+        var precio = priceMode === 'iva' ? item.precioIva : item.precioNeto;
+        var precioStr = precio != null ? ' | Precio unit.: ' + formatCLP(precio) : '';
+        lines.push((idx + 1) + '. ' + item.producto + ' | Categoria: ' + item.categoria + ' | Cantidad: ' + item.cantidad + precioStr);
       });
       lines.push('Gracias.');
 
